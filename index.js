@@ -1,20 +1,9 @@
-
 const express = require('express')
-const bodyParser = require('body-parser')
-const app = express()
-const port = 3000
+const path = require('path')
+const PORT = process.env.PORT || 5000
 
-app.use(bodyParser.json())
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
+express()
+  .get('/', (request, response) => {
+    response.json({ info: 'Node.js, Express, and Postgres API' })
   })
-)
-
-app.get('/', (request, response) => {
-  response.json({ info: 'Node.js, Express, and Postgres API' })
-})
-
-app.listen(port, () => {
-  console.log(`App running on port ${port}.`)
-})
+  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
