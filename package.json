@@ -9,17 +9,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/igorbragaia/NodeJS-crud-API.git"
+    "url": "git+https://github.com/igorbragaia/NodeJS-ReactJS-crud.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/igorbragaia/NodeJS-crud-API/issues"
+    "url": "https://github.com/igorbragaia/NodeJS-ReactJS-crud/issues"
   },
-  "homepage": "https://github.com/igorbragaia/NodeJS-crud-API#readme",
+  "homepage": "https://github.com/igorbragaia/NodeJS-ReactJS-crud#readme",
   "dependencies": {
     "express": "^4.16.4",
-    "pg": "^7.9.0"
+    "pg": "^7.9.0",
+    "react-semantic-ui": "^0.2.0",
+    "semantic-ui-css": "^2.4.1"
   }
 }
