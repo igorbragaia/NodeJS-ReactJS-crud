@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Menu, Table, Form, Button } from 'semantic-ui-react';
+import { Container, Menu, Table, Form, Button, Icon, Segment, Dimmer, Loader, Image } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css'
 import './App.css';
 
@@ -15,6 +15,7 @@ class App extends Component {
       users: [],
       name: "Igor Bragaia",
       email: "igor.bragaia@gmail.com",
+      loading: false,
   }
 
   handleItemClick = (e, {name}) => {
@@ -42,7 +43,7 @@ class App extends Component {
 
     fetch('/users', options)
       .then(res => res.text())
-      .then(res => console.log(res))
+      .then(res => this.fetchUsers())
       .catch(() => {
         console.log('failed to fetch users');
       });
@@ -53,11 +54,14 @@ class App extends Component {
   }
 
   fetchUsers = () => {
+    this.setState({loading: true});
     fetch('/users')
       .then(res => res.json())
-      .then(users => this.setState({ users }))
+      .then(users =>
+        this.setState({ users: users, loading: false, activeItem: "users" }))
       .catch(() => {
-        console.log('failed to fetch users');
+        console.log('failed to fetch users')
+        this.setState({ loading: false })
       });
   }
 
@@ -75,9 +79,19 @@ class App extends Component {
                 </div>;
 
     let content;
-    switch (activeItem) {
-      case "subscribe":
+    if(this.state.loading){
         content =
+          <Segment>
+            <Dimmer active inverted>
+              <Loader inverted>Loading</Loader>
+            </Dimmer>
+
+            <Image src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
+          </Segment>
+    } else {
+        switch (activeItem) {
+          case "subscribe":
+          content =
           <div>
             <Form>
               <Form.Field>
@@ -88,37 +102,41 @@ class App extends Component {
                 <label>Email</label>
                 <input name='email' onChange={this.handleChange} placeholder='igor.bragaia@gmail.com' />
               </Form.Field>
-              <Button onClick={this.handleSubscribeClick}>Submit</Button>
+              <Button onClick={this.handleSubscribeClick}>Subscribe</Button>
             </Form>
           </div>;
-        break;
-      case "users":
-        const users = this.state.users.map((user) =>
-            <Table.Row negative>
-              <Table.Cell>{user.name}</Table.Cell>
-              <Table.Cell>{user.email}</Table.Cell>
-            </Table.Row>
+          break;
+          case "users":
+          const users = this.state.users.map((user) =>
+          <Table.Row>
+            <Table.Cell>{user.name}</Table.Cell>
+            <Table.Cell>{user.email}</Table.Cell>
+            <Table.Cell><Icon name='remove' /></Table.Cell>
+          </Table.Row>
         );
         content =
-          <div>
-            <Table celled>
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell>Name</Table.HeaderCell>
-                  <Table.HeaderCell>Email</Table.HeaderCell>
-                </Table.Row>
-              </Table.Header>
-              <Table.Body>
-                {users}
-              </Table.Body>
-            </Table>
-          </div>;
+        <div>
+          <Table celled>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>Name</Table.HeaderCell>
+                <Table.HeaderCell>Email</Table.HeaderCell>
+                <Table.HeaderCell></Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              {users}
+            </Table.Body>
+          </Table>
+        </div>;
         break;
-      default:
+        default:
         content =
-          <div>
-          </div>
-    };
+        <div>
+        </div>
+      }
+    }
+
 
     return (
       <div>
