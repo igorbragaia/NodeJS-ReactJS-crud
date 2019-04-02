@@ -134,6 +134,7 @@ class App extends Component {
           case "users":
           const users = this.state.users.map((user) =>
           <Table.Row>
+            <Table.Cell>{user.id}</Table.Cell>
             <Table.Cell>{user.name}</Table.Cell>
             <Table.Cell>{user.email}</Table.Cell>
             <Table.Cell><Button circular icon='remove user' onClick={() => this.handleDeleteUserClick(user.id)}/></Table.Cell>
@@ -144,6 +145,7 @@ class App extends Component {
           <Table celled>
             <Table.Header>
               <Table.Row>
+                <Table.HeaderCell>Id</Table.HeaderCell>
                 <Table.HeaderCell>Name</Table.HeaderCell>
                 <Table.HeaderCell>Email</Table.HeaderCell>
                 <Table.HeaderCell>Delete</Table.HeaderCell>
@@ -161,8 +163,6 @@ class App extends Component {
         </div>
       }
     }
-
-
     return (
       <div>
         <Container>
