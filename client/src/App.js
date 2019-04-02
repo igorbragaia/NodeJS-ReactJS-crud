@@ -1,40 +1,40 @@
 import React, { Component } from 'react';
-import { Menu } from 'semantic-ui-react';
+import { Container, Menu, Table } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css'
 import './App.css';
 
 class App extends Component {
-  // Initialize state
   state = {
-      passwords: [],
-      activeItem: "subscribe",
+      activeItem: "users",
+      users: []
   }
 
   handleItemClick = (e, {name}) => {
     switch (name) {
       case "users":
-        fetch('/users')
-          .then(res => res.json())
-          .then(users => this.setState({ users }));
+        this.fetchUsers();
         this.setState({activeItem: name});
         break;
-      default:
-        this.setState({activeItem: name});
     }
+    this.setState({activeItem: name});
   }
 
+  fetchUsers = () => {
+    fetch('/users')
+      .then(res => res.json())
+      .then(users => this.setState({ users }));
+  }
 
-  // Fetch passwords after first mount
   componentDidMount() {
-    // this.getPasswords();
+    this.fetchUsers();
   }
 
   render() {
     const { passwords, activeItem } = this.state;
     const menu = <div>
                   <Menu tabular>
-                    <Menu.Item name='subscribe' active={activeItem === 'subscribe'} onClick={this.handleItemClick} />
                     <Menu.Item name='users' active={activeItem === 'users'} onClick={this.handleItemClick} />
+                    <Menu.Item name='subscribe' active={activeItem === 'subscribe'} onClick={this.handleItemClick} />
                   </Menu>
                 </div>;
 
@@ -47,15 +47,26 @@ class App extends Component {
           </div>;
         break;
       case "users":
-        const users = this.state.users.map((user) => return(
-          <div>
-            {user.name} {user.email}
-          </div>
-        ))
+        const users = this.state.users.map((user) =>
+            <Table.Row negative>
+              <Table.Cell>{user.name}</Table.Cell>
+              <Table.Cell>{user.email}</Table.Cell>
+            </Table.Row>
+        );
         content =
           <div>
-            {users}
-          </div>
+            <Table celled>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>Name</Table.HeaderCell>
+                  <Table.HeaderCell>Email</Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
+                {users}
+              </Table.Body>
+            </Table>
+          </div>;
         break;
       default:
         content =
@@ -65,8 +76,10 @@ class App extends Component {
 
     return (
       <div>
-        {menu}
-        {content}
+        <Container>
+          {menu}
+          {content}
+        </Container>
       </div>
     );
   }
