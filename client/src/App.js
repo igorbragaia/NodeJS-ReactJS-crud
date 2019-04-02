@@ -47,10 +47,14 @@ class App extends Component {
           </div>;
         break;
       case "users":
-        console.log(this.state.users);
+        const users = this.state.users.map(user => return(
+          <div>
+            {user.name} {user.email}
+          </div>
+        ))
         content =
           <div>
-            hello world 2
+            {users}
           </div>
         break;
       default:
