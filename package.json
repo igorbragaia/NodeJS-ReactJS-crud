@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/igorbragaia/NodeJS-ReactJS-crud#readme",
   "dependencies": {
+    "circular-json": "^0.5.9",
     "express": "^4.16.4",
     "pg": "^7.9.0",
     "react-semantic-ui": "^0.2.0",
