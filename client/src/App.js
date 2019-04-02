@@ -1,61 +1,61 @@
 import React, { Component } from 'react';
+import { Menu } from 'semantic-ui-react';
+import 'semantic-ui-css/semantic.min.css'
 import './App.css';
 
 class App extends Component {
   // Initialize state
-  state = { passwords: [] }
+  state = {
+      passwords: [],
+      activeItem: "subscribe",
+  }
+  handleItemClick = (e, {name}) => this.setState({activeItem: name});
 
   // Fetch passwords after first mount
   componentDidMount() {
-    this.getPasswords();
+    // this.getPasswords();
   }
 
-  getPasswords = () => {
-    // Get the passwords and store them in state
-    fetch('/api/passwords')
-      .then(res => res.json())
-      .then(passwords => this.setState({ passwords }));
-  }
 
+  // getPasswords = () => {
+  //   // Get the passwords and store them in state
+  //   fetch('/api/passwords')
+  //     .then(res => res.json())
+  //     .then(passwords => this.setState({ passwords }));
+  // }
   render() {
-    const { passwords } = this.state;
+    const { passwords, activeItem } = this.state;
+    const menu = <div>
+                  <Menu tabular>
+                    <Menu.Item name='subscribe' active={activeItem === 'subscribe'} onClick={this.handleItemClick} />
+                    <Menu.Item name='users' active={activeItem === 'users'} onClick={this.handleItemClick} />
+                  </Menu>
+                </div>;
+
+    let content;
+    switch (activeItem) {
+      case "subscribe":
+        content =
+          <div>
+            hello world 1
+          </div>;
+        break;
+      case "users":
+        content =
+          <div>
+            hello world 2
+          </div>
+        break;
+      default:
+        content =
+          <div>
+          </div>
+    };
 
     return (
-      <div className="App">
-        {/* Render the passwords if we have them */}
-        {passwords.length ? (
-          <div>
-            <h1>5 Passwords.</h1>
-            <ul className="passwords">
-              {/*
-                Generally it's bad to use "index" as a key.
-                It's ok for this example because there will always
-                be the same number of passwords, and they never
-                change positions in the array.
-              */}
-              {passwords.map((password, index) =>
-                <li key={index}>
-                  {password}
-                </li>
-              )}
-            </ul>
-            <button
-              className="more"
-              onClick={this.getPasswords}>
-              Get More
-            </button>
-          </div>
-        ) : (
-          // Render a helpful message otherwise
-          <div>
-            <h1>No passwords :(</h1>
-            <button
-              className="more"
-              onClick={this.getPasswords}>
-              Try Again?
-            </button>
-          </div>
-        )}
+      <div>
+        {menu}
+        {content}
       </div>
     );
   }
