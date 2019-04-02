@@ -9,20 +9,26 @@ class App extends Component {
       passwords: [],
       activeItem: "subscribe",
   }
-  handleItemClick = (e, {name}) => this.setState({activeItem: name});
+
+  handleItemClick = (e, {name}) => {
+    switch (name) {
+      case "users":
+        fetch('/users')
+          .then(res => res.json())
+          .then(users => this.setState({ users }));
+        this.setState({activeItem: name});
+        break;
+      default:
+        this.setState({activeItem: name});
+    }
+  }
+
 
   // Fetch passwords after first mount
   componentDidMount() {
     // this.getPasswords();
   }
 
-
-  // getPasswords = () => {
-  //   // Get the passwords and store them in state
-  //   fetch('/api/passwords')
-  //     .then(res => res.json())
-  //     .then(passwords => this.setState({ passwords }));
-  // }
   render() {
     const { passwords, activeItem } = this.state;
     const menu = <div>
@@ -41,9 +47,6 @@ class App extends Component {
           </div>;
         break;
       case "users":
-        fetch('/users')
-          .then(res => res.json())
-          .then(users => this.setState({ users }));
         console.log(this.state.users);
         content =
           <div>
