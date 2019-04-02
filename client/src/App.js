@@ -41,6 +41,10 @@ class App extends Component {
           </div>;
         break;
       case "users":
+        fetch('/users')
+          .then(res => res.json())
+          .then(users => this.setState({ users }));
+        console.log(this.state.users);
         content =
           <div>
             hello world 2
