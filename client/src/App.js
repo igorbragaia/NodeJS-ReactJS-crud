@@ -47,7 +47,7 @@ class App extends Component {
           </div>;
         break;
       case "users":
-        const users = this.state.users.map(user => return(
+        const users = this.state.users.map((user) => return(
           <div>
             {user.name} {user.email}
           </div>
