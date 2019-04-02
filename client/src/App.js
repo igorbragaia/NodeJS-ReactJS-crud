@@ -8,6 +8,7 @@ class App extends Component {
   constructor(props){
     super(props);
     this.handleChange = this.handleChange.bind(this);
+    this.handleDeleteUserClick = this.handleDeleteUserClick.bind(this);
   }
 
   state = {
@@ -28,7 +29,29 @@ class App extends Component {
     this.setState({activeItem: name});
   }
 
+  handleDeleteUserClick = (id) => {
+    const options = {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: id
+      })
+    };
+
+    fetch('/users/:id', options)
+      .then(res => res.text())
+      .then(res => this.fetchUsers())
+      .catch(() => {
+        console.log('failed to fetch users');
+      });
+  }
+
   handleSubscribeClick = (event) => {
+    this.setState({loading: true});
+
     const options = {
       method: "POST",
       headers: {
@@ -54,11 +77,13 @@ class App extends Component {
   }
 
   fetchUsers = () => {
-    this.setState({loading: true});
+    if(!this.state.loading)
+      this.setState({loading: true});
     fetch('/users')
       .then(res => res.json())
-      .then(users =>
-        this.setState({ users: users, loading: false, activeItem: "users" }))
+      .then(users => {
+        this.setState({ users: users, loading: false, activeItem: "users" })
+      })
       .catch(() => {
         console.log('failed to fetch users')
         this.setState({ loading: false })
@@ -111,7 +136,7 @@ class App extends Component {
           <Table.Row>
             <Table.Cell>{user.name}</Table.Cell>
             <Table.Cell>{user.email}</Table.Cell>
-            <Table.Cell><Icon name='remove' /></Table.Cell>
+            <Table.Cell><Button circular icon='remove user' onClick={() => this.handleDeleteUserClick(user.id)}/></Table.Cell>
           </Table.Row>
         );
         content =
