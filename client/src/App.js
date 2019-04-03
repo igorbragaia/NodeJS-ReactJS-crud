@@ -98,8 +98,8 @@ class App extends Component {
     const { passwords, activeItem } = this.state;
     const menu = <div>
                   <Menu tabular>
-                    <Menu.Item name='users' active={activeItem === 'users'} onClick={this.handleItemClick} />
-                    <Menu.Item name='subscribe' active={activeItem === 'subscribe'} onClick={this.handleItemClick} />
+                    <Menu.Item name='getUsers' active={activeItem === 'getUsers'} onClick={this.handleItemClick} />
+                    <Menu.Item name='createUser' active={activeItem === 'createUser'} onClick={this.handleItemClick} />
                   </Menu>
                 </div>;
 
