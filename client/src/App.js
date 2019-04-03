@@ -100,6 +100,7 @@ class App extends Component {
                   <Menu tabular>
                     <Menu.Item name='getUsers' active={activeItem === 'getUsers'} onClick={this.handleItemClick} />
                     <Menu.Item name='createUser' active={activeItem === 'createUser'} onClick={this.handleItemClick} />
+                    <Menu.Item name='getUserById' active={activeItem === 'getUserById'} onClick={this.handleItemClick} />
                   </Menu>
                 </div>;
 
@@ -132,35 +133,38 @@ class App extends Component {
           </div>;
           break;
           case "getUsers":
-          const users = this.state.users.map((user) =>
-          <Table.Row>
-            <Table.Cell>{user.id}</Table.Cell>
-            <Table.Cell>{user.name}</Table.Cell>
-            <Table.Cell>{user.email}</Table.Cell>
-            <Table.Cell><Button circular icon='remove user' onClick={() => this.handleDeleteUserClick(user.id)}/></Table.Cell>
-          </Table.Row>
-        );
-        content =
-        <div>
-          <Table celled>
-            <Table.Header>
+            const users = this.state.users.map((user) =>
               <Table.Row>
-                <Table.HeaderCell>Id</Table.HeaderCell>
-                <Table.HeaderCell>Name</Table.HeaderCell>
-                <Table.HeaderCell>Email</Table.HeaderCell>
-                <Table.HeaderCell>Delete</Table.HeaderCell>
+                <Table.Cell>{user.id}</Table.Cell>
+                <Table.Cell>{user.name}</Table.Cell>
+                <Table.Cell>{user.email}</Table.Cell>
+                <Table.Cell><Button circular icon='remove user' onClick={() => this.handleDeleteUserClick(user.id)}/></Table.Cell>
               </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {users}
-            </Table.Body>
-          </Table>
-        </div>;
-        break;
-        default:
-        content =
-        <div>
-        </div>
+            );
+            content =
+            <div>
+              <Table celled>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell>Id</Table.HeaderCell>
+                    <Table.HeaderCell>Name</Table.HeaderCell>
+                    <Table.HeaderCell>Email</Table.HeaderCell>
+                    <Table.HeaderCell>Delete</Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  {users}
+                </Table.Body>
+              </Table>
+            </div>;
+            break;
+          case "getUserById":
+            content =
+            <div>getUserById</div>
+          default:
+            content =
+            <div>
+            </div>
       }
     }
     return (
