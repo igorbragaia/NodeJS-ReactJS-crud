@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Menu, Table, Form, Button, Icon, Segment, Dimmer, Loader, Image } from 'semantic-ui-react';
+import { Container, Menu, Table, Form, Button, Icon, Segment, Dimmer, Loader, Image, Dropdown } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css'
 import './App.css';
 
@@ -17,6 +17,7 @@ class App extends Component {
       name: "Igor Bragaia",
       email: "igor.bragaia@gmail.com",
       loading: false,
+      usersIdOptions: []
   }
 
   handleItemClick = (e, {name}) => {
@@ -82,7 +83,8 @@ class App extends Component {
     fetch('/users')
       .then(res => res.json())
       .then(users => {
-        this.setState({ users: users, loading: false, activeItem: "getUsers" })
+        const usersId = users.map(user => {return {value:user.id, text:user.id, key:user.id}})
+        this.setState({ users: users, loading: false, activeItem: "getUsers", usersIdOptions: usersId })
       })
       .catch(() => {
         console.log('failed to fetch users')
@@ -162,6 +164,14 @@ class App extends Component {
             content =
             <div>
               getUserById
+              <Dropdown
+                placeholder='Id'
+                fluid
+                multiple
+                search
+                selection
+                options={this.state.usersIdOptions}
+                />
             </div>
             break;
           default:
