@@ -160,7 +160,10 @@ class App extends Component {
             break;
           case "getUserById":
             content =
-            <div>getUserById</div>
+            <div>
+              getUserById
+            </div>
+            break;
           default:
             content =
             <div>
