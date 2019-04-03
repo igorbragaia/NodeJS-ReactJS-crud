@@ -12,7 +12,7 @@ class App extends Component {
   }
 
   state = {
-      activeItem: "users",
+      activeItem: "getUsers",
       users: [],
       name: "Igor Bragaia",
       email: "igor.bragaia@gmail.com",
@@ -21,7 +21,7 @@ class App extends Component {
 
   handleItemClick = (e, {name}) => {
     switch (name) {
-      case "users":
+      case "getUsers":
         this.fetchUsers();
         this.setState({activeItem: name});
         break;
@@ -82,7 +82,7 @@ class App extends Component {
     fetch('/users')
       .then(res => res.json())
       .then(users => {
-        this.setState({ users: users, loading: false, activeItem: "users" })
+        this.setState({ users: users, loading: false, activeItem: "getUsers" })
       })
       .catch(() => {
         console.log('failed to fetch users')
@@ -115,7 +115,7 @@ class App extends Component {
           </Segment>
     } else {
         switch (activeItem) {
-          case "subscribe":
+          case "createUser":
           content =
           <div>
             <Form>
@@ -131,7 +131,7 @@ class App extends Component {
             </Form>
           </div>;
           break;
-          case "users":
+          case "getUsers":
           const users = this.state.users.map((user) =>
           <Table.Row>
             <Table.Cell>{user.id}</Table.Cell>
